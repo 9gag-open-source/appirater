@@ -135,6 +135,10 @@ static BOOL _alwaysUseMainBundle = NO;
     [self sharedInstance].alertRateLaterTitle = rateLaterTitle;
 }
 
++ (void)setShowFeedbackHandler:(void (^)(void))actionHandler {
+    [self sharedInstance].showFeedbackHandler = actionHandler;
+}
+
 + (void) setDebug:(BOOL)debug {
     _debug = debug;
 }
@@ -267,13 +271,20 @@ static BOOL _alwaysUseMainBundle = NO;
 }
 
 - (void)showRatingAlert:(BOOL)displayRateLaterButton {
+    
+    if(self.showFeedbackHandler){
+        self.showFeedbackHandler();
+        return;
+    }
+    
+    
   UIAlertView *alertView = nil;
   if (displayRateLaterButton) {
   	alertView = [[UIAlertView alloc] initWithTitle:self.alertTitle
                                            message:self.alertMessage
                                           delegate:self
                                  cancelButtonTitle:self.alertCancelTitle
-                                 otherButtonTitles:self.alertRateTitle, _alertRateLaterTitle, nil];
+                                 otherButtonTitles:self.alertRateTitle, self.alertRateLaterTitle, nil];
   } else {
   	alertView = [[UIAlertView alloc] initWithTitle:self.alertTitle
                                            message:self.alertMessage

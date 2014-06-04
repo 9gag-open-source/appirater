@@ -92,6 +92,7 @@ extern NSString *const kAppiraterReminderRequestDate;
 
 @property(nonatomic, strong) UIAlertView *ratingAlert;
 @property(nonatomic) BOOL openInAppStore;
+@property(nonatomic, copy) void (^showFeedbackHandler)(void);
 #if __has_feature(objc_arc_weak)
 @property(nonatomic, weak) NSObject <AppiraterDelegate> *delegate;
 #else
@@ -254,6 +255,8 @@ extern NSString *const kAppiraterReminderRequestDate;
  Set customized rate later button title for alert view.
  */
 + (void) setCustomAlertRateLaterButtonTitle:(NSString *)rateLaterTitle;
+
++ (void)setShowFeedbackHandler:(void (^)(void))actionHandler;
 
 /*!
  'YES' will show the Appirater alert everytime. Useful for testing how your message
